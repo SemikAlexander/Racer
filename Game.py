@@ -16,7 +16,7 @@ carImage = pygame.image.load('Car.png')
 
 
 def things_dodged(count):
-    font = pygame.font.SysFont(None, 25)
+    font = pygame.font.Font('17668.otf', 20)
     text = font.render("Dodged: "+str(count), True, (0, 0, 0))
     gameDisplay.blit(text,(0,0))
 
@@ -56,7 +56,6 @@ def gameLoop():
     thing_speed = 7
     thing_width = 100
     thing_height = 100
-    thingCount = 1
     dodged = 0
 
     while not gameExit:
@@ -83,8 +82,11 @@ def gameLoop():
         car(x, y)
         things_dodged(dodged)
 
-        if x > WidthDisplay - carWidth or x < 0:
-            crash()
+        if x > WidthDisplay - carWidth:
+            x = WidthDisplay - carWidth
+
+        if x < 0:
+            x = 0
 
         if thing_starty > HeightDisplay:
             thing_starty = 0 - thing_height
@@ -94,7 +96,7 @@ def gameLoop():
             thing_width += (dodged * 1.2)
 
         if y < thing_starty + thing_height:
-            if x > thing_startx and x < thing_startx + thing_width or x + carWidth > thing_startx and x + carWidth < thing_startx + thing_width: #ERROR! FIX IT!
+            if x > thing_startx and x < thing_startx + thing_width or x + carWidth >= thing_startx and x + carWidth <= thing_startx + thing_width: #ERROR! FIX IT!
                 crash()
 
         pygame.display.update()
